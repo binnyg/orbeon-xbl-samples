@@ -1,0 +1,97 @@
+<xhtml:html xmlns:xforms="http://www.w3.org/2002/xforms"
+	xmlns:f="http://orbeon.org/oxf/xml/formatting" xmlns:xhtml="http://www.w3.org/1999/xhtml"
+	xmlns:xxforms="http://orbeon.org/oxf/xml/xforms" xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:xxi="http://orbeon.org/oxf/xml/xinclude" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:widget="http://orbeon.org/oxf/xml/widget"
+	xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes"
+	xmlns:xbl="http://www.w3.org/ns/xbl" xmlns:fr="http://orbeon.org/oxf/xml/form-runner">
+
+	<xhtml:head>
+	    <xhtml:link type="text/css" rel="stylesheet" href="/apps/xforms-sandbox/samples/syntaxhighlighter/styles/shCore.css"/>
+	    <xhtml:link type="text/css" rel="stylesheet" href="/apps/xforms-sandbox/samples/syntaxhighlighter/styles/shCoreDefault.css"/>
+
+		<xforms:model/>
+			
+		<xbl:xbl xmlns:xhtml="http://www.w3.org/1999/xhtml"
+		 xmlns:xforms="http://www.w3.org/2002/xforms"
+		 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		 xmlns:ev="http://www.w3.org/2001/xml-events"
+		 xmlns:xi="http://www.w3.org/2001/XInclude"
+		 xmlns:xxi="http://orbeon.org/oxf/xml/xinclude"
+		 xmlns:xxforms="http://orbeon.org/oxf/xml/xforms"
+		 xmlns:fr="http://orbeon.org/oxf/xml/form-runner"
+		 xmlns:saxon="http://saxon.sf.net/"
+		 xmlns:oxf="http://www.orbeon.com/oxf/processors"
+		 xmlns:xbl="http://www.w3.org/ns/xbl"
+		 xmlns:xxbl="http://orbeon.org/oxf/xml/xbl"
+		 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+        
+    	<xbl:script src="/apps/xforms-sandbox/samples/syntaxhighlighter/scripts/shCore.js" />
+    	<xbl:script src="/apps/xforms-sandbox/samples/syntaxhighlighter/scripts/shBrushJava.js" />
+    	<xbl:script src="/apps/xforms-sandbox/samples/syntaxhighlighter/scripts/shBrushJScript.js" />    	
+    
+    	<xbl:binding id="fr-format" element="fr|format">
+    		<xbl:template xxbl:transform="oxf:unsafe-xslt">
+    			<xsl:transform version="2.0">
+    				<xsl:template match="/*">
+    					<xforms:group>
+
+    						<xbl:content includes="xforms|label" />        						
+                            
+                            <xxforms:script ev:event="xforms-enabled">
+                                SyntaxHighlighter.all();
+                            </xxforms:script>
+                                                        
+                            <pre class="brush: {@brush}">
+                                <xsl:value-of select="./fr:content" />
+                            </pre>
+                                    
+    					</xforms:group>
+    				</xsl:template>
+    			</xsl:transform>
+    		</xbl:template>
+    	</xbl:binding>
+    
+    </xbl:xbl>
+
+	</xhtml:head>
+
+	<xhtml:body class="body">
+                
+        <fr:format brush="java">
+            <xforms:label>Java Code</xforms:label>
+            <fr:content><![CDATA[
+                import java.util.*;
+                
+                public class Test {
+                    public static void main(String args[]) {
+                        System.out.println("Orbeon rocks!");
+                    }
+                }]]>
+            </fr:content>
+        </fr:format>
+
+        <fr:format brush="js">
+            <xforms:label>Java Script Code</xforms:label>
+            <fr:content><![CDATA[
+                /**
+                 * Executes a callback on each line and replaces each line with result from the callback.
+                 * @param {Object} str			Input string.
+                 * @param {Object} callback		Callback function taking one string argument and returning a string.
+                 */
+                function eachLine(str, callback)
+                {
+                	var lines = splitLines(str);
+                	
+                	for (var i = 0; i < lines.length; i++)
+                		lines[i] = callback(lines[i], i);
+                		
+                	return lines.join("\n");
+                };]]>
+            </fr:content>
+        </fr:format>
+
+        
+	</xhtml:body>
+
+</xhtml:html>
